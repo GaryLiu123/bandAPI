@@ -1,6 +1,8 @@
 
 const APIError = require('./rest').APIError;
 
+const json2csv = require('json2csv');
+
 //health data
 function HealthData(totalCount, healthDatas) {
     this.totalCount = totalCount;
@@ -94,7 +96,6 @@ module.exports = {
     createProposal: (proposal) => {
       var p = new Proposal (proposal);
       proposals.push(p);
-
       return p;
     },
 
@@ -107,4 +108,14 @@ module.exports = {
         }
         return null;
     },
+
+    generateProposalCSV: (date) => {
+      var data = proposals;
+      var fieldNames =  ['LIST_ID', 'PROPOSAL_CODE', 'POLICY_CODE', 'PRODUCT_ID', 'PACKAGE_ID', 'SUBMIT_CHANNEL', 'PH_NAME', 'PH_GRNDER', 'PH_CERTI_TYPE', 'PH_CERTI_CODE', 'LA_NAME', 'LA_GRNDER', 'LA_CERTI_TYPE', 'LA_CERTI_CODE', 'STATUS', 'SIGN_SITE', 'ATTRI_CHANNEL', 'PROP_SIGN_DATE', 'TAKE_EFFECT_DATE', 'PRODUCER_ID', 'SA', 'YEARLY_PREM', 'INFORCE_DATE', 'INSERTED_BY', 'UPDATED_BY', 'INSERT_TIME', 'UPDATE_TIME', 'INSERT_TIMESTAMP', 'UPDATE_TIMESTAMP', 'SALES_CHANNEL_CODE', 'SALES_COMPANY_CODE', 'TENANT_CODE'];
+      var fields = ['listId', 'proposalCode', 'policyCode', 'productId', 'packageId', 'submitChannel', 'phName', 'phGrnder', 'phCertiType', 'phCertiCode', 'laName', 'laGrnder', 'laCertiType', 'laCertiCode', 'status', 'signSite', 'attriChannel', 'propSignDate', 'takeEffectDate', 'producerId', 'sa', 'yearlyPrem', 'inforceDate', 'insertedBy', 'updatedBy', 'insertTime', 'updateTime', 'insertTimestamp', 'updateTimestamp', 'salesChannelCode', 'salesCompanyCode', 'tenantCode'];
+      
+      var csvData = json2csv({ data: data, fields:fields, fieldNames: fieldNames });
+
+      return csvData;
+    }
 };

@@ -4,7 +4,7 @@
   "description": "GOYO with rest api",
   "main": "app.js",
   "scripts": {
-    "debug": "node --inspect --use_strict app.js",
+    "debug": "node --debug-brk --use_strict app.js",
     "start": "node --use_strict app.js"
   },
   "keywords": [
@@ -19,6 +19,7 @@
     "url": ""
   },
   "dependencies": {
+    "json2csv": "^3.7.3",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.0",
