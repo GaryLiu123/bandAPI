@@ -4,7 +4,8 @@
   "description": "GOYO with rest api",
   "main": "app.js",
   "scripts": {
-    "start": "node --inspect --use_strict app.js"
+    "debug": "node --inspect --use_strict app.js",
+    "start": "node --use_strict app.js"
   },
   "keywords": [
     "rest",
