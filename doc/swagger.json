@@ -1,0 +1,503 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "APIs design for the GOYO on eBaoCloud",
+    "version": "0.5",
+    "title": "eBaoCloud API for GOYO, UAL"
+  },
+  "host": "ualapi.ebaocloud.life",
+  "basePath": "/libff/sprest",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/GOYO/healthData": {
+      "post": {
+        "tags": [
+          "Health Data"
+        ],
+        "summary": "Submit a list of insurer's health data.",
+        "description": "This API provides a ```POST``` method and accept a set of health data. The request body contais 2 objects: **totalCount** and **healthDatas** . The healthDatas is an array which contains a set of healthData and the totalCount indicates the array size.\n Request side needs to make sure the **totalCount** is equals to the **healthDatas** array size, otherwise, error message will be sent.\n",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Details of the submitted health data list.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HealthDataSubmitRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "schema": {
+              "$ref": "#/definitions/HealthDataSubmitResponse"
+            }
+          }
+        },
+        "x-swagger-router-controller": "Health Data"
+      }
+    },
+    "/goyoProposalService/saveProposal": {
+      "post": {
+        "tags": [
+          "Proposal"
+        ],
+        "summary": "Submit a proposal detail.",
+        "description": "This API provides a ```POST``` method and accept a set of proposal data. The request body contais a proposal info object: **encryptedUserData** and **proposalInfo** . The proposal object contains all information such as base information, insured(s), policy holder, main coverages(plan) and riders(if existing).\n",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "bodyParam",
+            "description": "Proposal Details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProposalSubmitRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "schema": {
+              "$ref": "#/definitions/ProposalSubmitResponse"
+            }
+          }
+        },
+        "x-swagger-router-controller": "Save Proposal"
+      }
+    }
+  },
+  "definitions": {
+    "HealthDataSubmitRequest": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "number",
+          "example": 1,
+          "description": "The total records count of the health data list."
+        },
+        "healthDatas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HealthData"
+          },
+          "description": "list of health data"
+        }
+      },
+      "required": [
+        "totalCount",
+        "healthDatas"
+      ]
+    },
+    "HealthData": {
+      "type": "object",
+      "required": [
+        "proposalNo",
+        "date"
+      ],
+      "properties": {
+        "proposalNo": {
+          "type": "string",
+          "example": "9123456789",
+          "description": "Propsoal No."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "example": "2017-06-01",
+          "description": "The date when the health data gathered."
+        },
+        "calories": {
+          "type": "number",
+          "example": 30,
+          "description": "Calories"
+        },
+        "steps": {
+          "type": "number",
+          "example": 3045,
+          "description": "Walk steps"
+        },
+        "distance": {
+          "type": "number",
+          "example": 4522,
+          "description": "Distance"
+        },
+        "sleep": {
+          "type": "number",
+          "example": 300,
+          "description": "Sleep"
+        },
+        "heartRate": {
+          "type": "number",
+          "example": 90,
+          "description": "Heart rate"
+        },
+        "extension": {
+          "type": "object",
+          "description": "Use this object to hold the aditional fields due to local customizations. eBaoCloud will store this field without any processing. You can retrieve this field later."
+        }
+      }
+    },
+    "HealthDataSubmitResponse": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "number",
+          "enum": [
+            0,
+            1
+          ],
+          "description": "0: Successful, 1: Failed"
+        },
+        "errorMessages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "common message"
+        }
+      }
+    },
+    "ProposalSubmitRequest": {
+      "type": "object",
+      "description": "Proposal submit request",
+      "required": [
+        "encryptedUserData",
+        "proposalInfo"
+      ],
+      "properties": {
+        "encryptedUserData": {
+          "type": "string",
+          "description": "The "
+        },
+        "proposalInfo": {
+          "$ref": "#/definitions/ProposalInfo"
+        }
+      }
+    },
+    "ProposalInfo": {
+      "type": "object",
+      "description": "Proposal information",
+      "properties": {
+        "proposalCode": {
+          "type": "string",
+          "description": "Proposal No., keep empty if you dont have one, system will generate one for you (10 digital number, start with 9). ",
+          "example": "9123456789"
+        },
+        "packageId": {
+          "type": "string",
+          "description": "The according package ID, for normal case, it should equals to the product ID.",
+          "example": "9100271"
+        },
+        "productId": {
+          "type": "string",
+          "description": "The according product ID.",
+          "example": "9100271"
+        },
+        "insureds": {
+          "type": "array",
+          "description": "Insured list, for normal case, has one record.",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
+        },
+        "proposer": {
+          "$ref": "#/definitions/Person"
+        },
+        "mainCoverages": {
+          "type": "array",
+          "description": "Coverage list, need at least one record (main plan).",
+          "items": {
+            "$ref": "#/definitions/Coverage"
+          }
+        },
+        "totalFirstYearPrem": {
+          "type": "string",
+          "description": "The according product ID."
+        },
+        "proposalStatus": {
+          "type": "string",
+          "description": "Proposal status",
+          "default": "80"
+        },
+        "inforceDate": {
+          "type": "string",
+          "format": "date",
+          "description": ""
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": ""
+        },
+        "submitDate": {
+          "type": "string",
+          "format": "date",
+          "description": ""
+        },
+        "salesCompanyCode": {
+          "type": "string",
+          "description": "Sale info: company",
+          "default": "GOYO",
+          "example": "GOYO"
+        },
+        "salesChannelCode": {
+          "type": "string",
+          "description": "Sale info: channel",
+          "default": "GOYO",
+          "example": "GOYO"
+        },
+        "beneficiaries": {
+          "type": "array",
+          "description": "Beneficiary list",
+          "items": {
+            "$ref": "#/definitions/Person"
+          }
+        }
+      }
+    },
+    "Coverage": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "description": "The according product ID."
+        },
+        "productCode": {
+          "type": "string",
+          "description": "The according product code."
+        },
+        "masterProductId": {
+          "type": "string",
+          "description": "Master product ID if it is a rider. No value when it is a main plan."
+        },
+        "unitFlag": {
+          "type": "string",
+          "description": "For investment product."
+        },
+        "paymentFreq": {
+          "type": "string",
+          "enum": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "description": "Payment frequency. e.g."
+        },
+        "sa": {
+          "type": "number",
+          "description": "Sum assured / Face amount."
+        },
+        "premium": {
+          "type": "number",
+          "description": "Premium."
+        },
+        "unit": {
+          "type": "number",
+          "description": "For investment product. Unit"
+        },
+        "benefitlevel": {
+          "type": "number",
+          "description": "benefitlevel"
+        },
+        "chargePeriod": {
+          "$ref": "#/definitions/Period"
+        },
+        "coveragePeriod": {
+          "$ref": "#/definitions/Period"
+        }
+      }
+    },
+    "Period": {
+      "type": "object",
+      "description": "period: charge period, coverage period",
+      "properties": {
+        "periodType": {
+          "type": "string",
+          "enum": [
+            1
+          ],
+          "description": ""
+        },
+        "periodValue": {
+          "type": "number"
+        }
+      }
+    },
+    "Person": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "birthday",
+        "gender",
+        "laPhRela",
+        "certiCode"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name of the person",
+          "example": "Alex"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the person",
+          "example": "Wong"
+        },
+        "birthday": {
+          "type": "string",
+          "format": "date",
+          "example": "1990-02-03"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "F",
+            "M"
+          ],
+          "description": "F: Female, M: Male",
+          "example": "F"
+        },
+        "jobCateId": {
+          "type": "string",
+          "description": "job category id"
+        },
+        "jobCateCode": {
+          "type": "string",
+          "description": "job category code"
+        },
+        "laPhRela": {
+          "type": "number",
+          "description": "the relationship between insured and policy holder",
+          "enum": [
+            1
+          ],
+          "example": ""
+        },
+        "certiType": {
+          "type": "string",
+          "description": "certificate type, in GOYO, the default is 1:ID",
+          "enum": [
+            1
+          ],
+          "example": 1
+        },
+        "certiCode": {
+          "type": "string",
+          "description": "certificate number",
+          "example": "X2434234"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "mobile",
+          "example": "98473223"
+        },
+        "email": {
+          "type": "string",
+          "description": "email",
+          "example": "98473223@email.com"
+        },
+        "marriageStatus": {
+          "type": "string",
+          "enum": [
+            "Married"
+          ]
+        },
+        "childCount": {
+          "type": "number",
+          "description": "child number"
+        },
+        "nationality": {
+          "type": "string",
+          "example": "Sri Lanka"
+        },
+        "nationCode": {
+          "type": "string",
+          "enum": [
+            "lk"
+          ],
+          "example": "lk"
+        },
+        "address": {
+          "type": "array",
+          "description": "address list",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "countryCode": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "addressExt1": {
+          "type": "string"
+        },
+        "addressExt2": {
+          "type": "string"
+        },
+        "postCode": {
+          "type": "string",
+          "example": "A12235647"
+        }
+      }
+    },
+    "ProposalSubmitResponse": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "number",
+          "enum": [
+            0,
+            1
+          ],
+          "description": "0: Successful, 1: Failed"
+        },
+        "errorMessages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "common message"
+        }
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ module.exports = {
                 console.log(`Process CSV ${ctx.request.method} ${ctx.request.url}...`);
                 ctx.csv = (data) => {
                     let fileName = `proposal-${ctx.params.date}`;
+                    ctx.response.status = 200;
                     ctx.response.attachment(fileName + '.csv');
                     ctx.response.type = 'application/csv';
                     ctx.body = data;
@@ -37,6 +38,7 @@ module.exports = {
             if (ctx.request.path.startsWith(pathPrefix)) {
                 console.log(`Process API ${ctx.request.method} ${ctx.request.url}...`);
                 ctx.rest = (data) => {
+                    ctx.response.status = 200;
                     ctx.response.type = 'application/json';
                     ctx.response.body = data;
                 }
