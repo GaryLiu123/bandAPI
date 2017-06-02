@@ -2,11 +2,30 @@
   "swagger": "2.0",
   "info": {
     "description": "APIs design for the GOYO on eBaoCloud",
-    "version": "0.5",
-    "title": "eBaoCloud API for GOYO, UAL"
+    "version": "0.9",
+    "title": "eBaoCloud API for GOYO, UAL",
+    "contact": {
+      "name": "eBaoCloud Support",
+      "url": "http://www.ebaotech.com",
+      "email": "liliang.zhu@ebaotech.com"
+    }
   },
   "host": "ualapi.ebaocloud.life",
-  "basePath": "/libff/sprest",
+  "basePath": "/libff",
+  "externalDocs": {
+    "description": "ReadMe before you start your development",
+    "url": "http://ualapi.ebaocloud.life/readme/"
+  },
+  "tags": [
+    {
+      "name": "proposal",
+      "description": "Everything about your Proposals"
+    },
+    {
+      "name": "health data",
+      "description": "Health data from GOYO"
+    }
+  ],
   "schemes": [
     "http",
     "https"
@@ -15,12 +34,12 @@
     "application/json"
   ],
   "paths": {
-    "/GOYO/healthData": {
+    "/services/rest/goyo/healthData": {
       "post": {
         "tags": [
-          "Health Data"
+          "health data"
         ],
-        "summary": "Submit a list of insurer's health data.",
+        "summary": "Submit a list of insurer's health data from GOYO.",
         "description": "This API provides a ```POST``` method and accept a set of health data. The request body contais 2 objects: **totalCount** and **healthDatas** . The healthDatas is an array which contains a set of healthData and the totalCount indicates the array size.\n Request side needs to make sure the **totalCount** is equals to the **healthDatas** array size, otherwise, error message will be sent.\n",
         "parameters": [
           {
@@ -29,7 +48,7 @@
             "description": "Details of the submitted health data list.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/HealthDataSubmitRequest"
+              "$ref": "#/definitions/HealthDataSubmit"
             }
           }
         ],
@@ -44,10 +63,10 @@
         "x-swagger-router-controller": "Health Data"
       }
     },
-    "/goyoProposalService/saveProposal": {
+    "/services/rest/goyoProposalService/saveProposal": {
       "post": {
         "tags": [
-          "Proposal"
+          "proposal"
         ],
         "summary": "Submit a proposal detail.",
         "description": "This API provides a ```POST``` method and accept a set of proposal data. The request body contais a proposal info object: **encryptedUserData** and **proposalInfo** . The proposal object contains all information such as base information, insured(s), policy holder, main coverages(plan) and riders(if existing).\n",
@@ -58,7 +77,7 @@
             "description": "Proposal Details",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ProposalSubmitRequest"
+              "$ref": "#/definitions/ProposalSubmit"
             }
           }
         ],
@@ -72,10 +91,43 @@
         },
         "x-swagger-router-controller": "Save Proposal"
       }
+    },
+    "/rest/goyoProposalService/generateProposalCSV/{date}": {
+      "get": {
+        "tags": [
+          "proposal"
+        ],
+        "summary": "Retrieve the proposal data (in CSV) as a daily basis.",
+        "description": "This API provides a ```GET``` method and accept a date (YYYY-MM-DD) as parameter. The resposne is a CSV file will all the proposal data of that day.",
+        "produces": [
+          "text/csv"
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "description": "Date of the proposal data.",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Date supplied"
+          },
+          "404": {
+            "description": "Proposal date not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "HealthDataSubmitRequest": {
+    "HealthDataSubmit": {
       "type": "object",
       "properties": {
         "totalCount": {
@@ -140,8 +192,8 @@
           "description": "Heart rate"
         },
         "extension": {
-          "type": "object",
-          "description": "Use this object to hold the aditional fields due to local customizations. eBaoCloud will store this field without any processing. You can retrieve this field later."
+          "type": "string",
+          "description": "Use this object to hold the aditional fields due to local customizations. You can put any string (json, xml, text etc.) in this field. eBaoCloud will NOT process the content but only store this field. You can retrieve this field later."
         }
       }
     },
@@ -171,7 +223,7 @@
         }
       }
     },
-    "ProposalSubmitRequest": {
+    "ProposalSubmit": {
       "type": "object",
       "description": "Proposal submit request",
       "required": [

@@ -1,21 +1,33 @@
 swagger: '2.0'
 info:
   description: APIs design for the GOYO on eBaoCloud
-  version: '0.5'
+  version: '0.9'
   title: 'eBaoCloud API for GOYO, UAL'
+  contact:
+    name: eBaoCloud Support
+    url: 'http://www.ebaotech.com'
+    email: liliang.zhu@ebaotech.com
 host: ualapi.ebaocloud.life
-basePath: /libff/sprest
+basePath: /libff
+externalDocs:
+  description: ReadMe before you start your development
+  url: 'http://ualapi.ebaocloud.life/readme/'
+tags:
+  - name: proposal
+    description: Everything about your Proposals
+  - name: health data
+    description: Health data from GOYO
 schemes:
   - http
   - https
 produces:
   - application/json
 paths:
-  /GOYO/healthData:
+  /services/rest/goyo/healthData:
     post:
       tags:
-        - Health Data
-      summary: Submit a list of insurer's health data.
+        - health data
+      summary: Submit a list of insurer's health data from GOYO.
       description: |
         This API provides a ```POST``` method and accept a set of health data. The request body contais 2 objects: **totalCount** and **healthDatas** . The healthDatas is an array which contains a set of healthData and the totalCount indicates the array size.
          Request side needs to make sure the **totalCount** is equals to the **healthDatas** array size, otherwise, error message will be sent.
@@ -25,17 +37,17 @@ paths:
           description: Details of the submitted health data list.
           required: true
           schema:
-            $ref: '#/definitions/HealthDataSubmitRequest'
+            $ref: '#/definitions/HealthDataSubmit'
       responses:
         '200':
           description: Successful response.
           schema:
             $ref: '#/definitions/HealthDataSubmitResponse'
       x-swagger-router-controller: Health Data
-  /goyoProposalService/saveProposal:
+  /services/rest/goyoProposalService/saveProposal:
     post:
       tags:
-        - Proposal
+        - proposal
       summary: Submit a proposal detail.
       description: |
         This API provides a ```POST``` method and accept a set of proposal data. The request body contais a proposal info object: **encryptedUserData** and **proposalInfo** . The proposal object contains all information such as base information, insured(s), policy holder, main coverages(plan) and riders(if existing).
@@ -45,16 +57,37 @@ paths:
           description: Proposal Details
           required: true
           schema:
-            $ref: '#/definitions/ProposalSubmitRequest'
+            $ref: '#/definitions/ProposalSubmit'
       responses:
         '200':
           description: Successful response.
           schema:
             $ref: '#/definitions/ProposalSubmitResponse'
       x-swagger-router-controller: Save Proposal
-
+  '/rest/goyoProposalService/generateProposalCSV/{date}':
+    get:
+      tags:
+        - proposal
+      summary: Retrieve the proposal data (in CSV) as a daily basis.
+      description: This API provides a ```GET``` method and accept a date (YYYY-MM-DD) as parameter. The resposne is a CSV file will all the proposal data of that day.
+      produces:
+        - text/csv
+      parameters:
+        - name: date
+          in: path
+          description: Date of the proposal data.
+          required: true
+          type: string
+          format: date
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid Date supplied
+        '404':
+          description: Proposal date not found
 definitions:
-  HealthDataSubmitRequest:
+  HealthDataSubmit:
     type: object
     properties:
       totalCount:
@@ -65,11 +98,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/HealthData'
-        description: 'list of health data'
+        description: list of health data
     required:
       - totalCount
       - healthDatas
-
   HealthData:
     type: object
     required:
@@ -106,9 +138,8 @@ definitions:
         example: 90
         description: Heart rate
       extension:
-        type: object
-        description: Use this object to hold the aditional fields due to local customizations. eBaoCloud will store this field without any processing. You can retrieve this field later.
-
+        type: string
+        description: 'Use this object to hold the aditional fields due to local customizations. You can put any string (json, xml, text etc.) in this field. eBaoCloud will NOT process the content but only store this field. You can retrieve this field later.'
   HealthDataSubmitResponse:
     type: object
     required:
@@ -116,7 +147,9 @@ definitions:
     properties:
       status:
         type: number
-        enum: [0,1]
+        enum:
+          - 0
+          - 1
         description: '0: Successful, 1: Failed'
       errorMessages:
         type: array
@@ -124,11 +157,10 @@ definitions:
           type: string
       message:
         type: string
-        description: 'common message'
-
-  ProposalSubmitRequest:
+        description: common message
+  ProposalSubmit:
     type: object
-    description: 'Proposal submit request'
+    description: Proposal submit request
     required:
       - encryptedUserData
       - proposalInfo
@@ -138,10 +170,9 @@ definitions:
         description: 'The '
       proposalInfo:
         $ref: '#/definitions/ProposalInfo'
-
   ProposalInfo:
     type: object
-    description: 'Proposal information'
+    description: Proposal information
     properties:
       proposalCode:
         type: string
@@ -153,7 +184,7 @@ definitions:
         example: '9100271'
       productId:
         type: string
-        description: 'The according product ID.'
+        description: The according product ID.
         example: '9100271'
       insureds:
         type: array
@@ -169,10 +200,10 @@ definitions:
           $ref: '#/definitions/Coverage'
       totalFirstYearPrem:
         type: string
-        description: 'The according product ID.'
+        description: The according product ID.
       proposalStatus:
         type: string
-        description: 'Proposal status'
+        description: Proposal status
         default: '80'
       inforceDate:
         type: string
@@ -189,66 +220,69 @@ definitions:
       salesCompanyCode:
         type: string
         description: 'Sale info: company'
-        default: 'GOYO'
-        example: 'GOYO'
+        default: GOYO
+        example: GOYO
       salesChannelCode:
         type: string
         description: 'Sale info: channel'
-        default: 'GOYO'
-        example: 'GOYO'
+        default: GOYO
+        example: GOYO
       beneficiaries:
         type: array
-        description: 'Beneficiary list'
+        description: Beneficiary list
         items:
           $ref: '#/definitions/Person'
-
   Coverage:
     type: object
     properties:
       productId:
         type: string
-        description: 'The according product ID.'
+        description: The according product ID.
       productCode:
         type: string
-        description: 'The according product code.'
+        description: The according product code.
       masterProductId:
         type: string
-        description: 'Master product ID if it is a rider. No value when it is a main plan.'
+        description: Master product ID if it is a rider. No value when it is a main plan.
       unitFlag:
         type: string
-        description: 'For investment product.'
+        description: For investment product.
       paymentFreq:
         type: string
-        enum: ['1','2','3','4','5']
-        description: 'Payment frequency. e.g.'
+        enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+        description: Payment frequency. e.g.
       sa:
         type: number
-        description: 'Sum assured / Face amount.'
+        description: Sum assured / Face amount.
       premium:
         type: number
-        description: 'Premium.'
+        description: Premium.
       unit:
         type: number
-        description: 'For investment product. Unit'
+        description: For investment product. Unit
       benefitlevel:
         type: number
-        description: 'benefitlevel'
+        description: benefitlevel
       chargePeriod:
         $ref: '#/definitions/Period'
       coveragePeriod:
         $ref: '#/definitions/Period'
-
   Period:
     type: object
     description: 'period: charge period, coverage period'
     properties:
       periodType:
         type: string
-        enum: [1]
+        enum:
+          - 1
         description: ''
       periodValue:
         type: number
-
   Person:
     type: object
     required:
@@ -261,68 +295,73 @@ definitions:
     properties:
       firstName:
         type: string
-        description: 'First name of the person'
-        example: 'Alex'
+        description: First name of the person
+        example: Alex
       lastName:
         type: string
-        description: 'Last name of the person'
-        example: 'Wong'
+        description: Last name of the person
+        example: Wong
       birthday:
         type: string
         format: date
         example: '1990-02-03'
       gender:
         type: string
-        enum: ['F', 'M']
+        enum:
+          - F
+          - M
         description: 'F: Female, M: Male'
-        example: 'F'
+        example: F
       jobCateId:
         type: string
-        description: 'job category id'
+        description: job category id
       jobCateCode:
         type: string
-        description: 'job category code'
+        description: job category code
       laPhRela:
         type: number
-        description: 'the relationship between insured and policy holder'
-        enum: [1]
+        description: the relationship between insured and policy holder
+        enum:
+          - 1
         example: ''
       certiType:
         type: string
         description: 'certificate type, in GOYO, the default is 1:ID'
-        enum: [1]
+        enum:
+          - 1
         example: 1
       certiCode:
         type: string
-        description: 'certificate number'
-        example: 'X2434234'
+        description: certificate number
+        example: X2434234
       mobile:
         type: string
-        description: 'mobile'
+        description: mobile
         example: '98473223'
       email:
         type: string
-        description: 'email'
-        example: '98473223@email.com'
+        description: email
+        example: 98473223@email.com
       marriageStatus:
         type: string
-        enum: ['Married']
+        enum:
+          - Married
       childCount:
         type: number
-        description: 'child number'
+        description: child number
       nationality:
         type: string
-        example: 'Sri Lanka'
+        example: Sri Lanka
       nationCode:
         type: string
-        enum: ['lk']
-        example: 'lk'
+        enum:
+          - lk
+        example: lk
       address:
         type: array
-        description: 'address list'
+        description: address list
         items:
           $ref: '#/definitions/Address'
-
   Address:
     type: object
     properties:
@@ -342,8 +381,7 @@ definitions:
         type: string
       postCode:
         type: string
-        example: 'A12235647'
-
+        example: A12235647
   ProposalSubmitResponse:
     type: object
     required:
@@ -351,7 +389,9 @@ definitions:
     properties:
       status:
         type: number
-        enum: [0,1]
+        enum:
+          - 0
+          - 1
         description: '0: Successful, 1: Failed'
       errorMessages:
         type: array
