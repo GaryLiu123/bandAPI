@@ -23,7 +23,7 @@ schemes:
 produces:
   - application/json
 paths:
-  /services/rest/goyo/healthData:
+  /services/rest/GOYO/healthData:
     post:
       tags:
         - health data
