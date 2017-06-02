@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "APIs design for the GOYO on eBaoCloud",
+    "description": "This is the APIs document for the GOYO on eBaoCloud. \n Before you start the development, please refer to [ReadMe](http://ualapi.ebaocloud.life/readme/) first which provides a more detail introduction. \n Also you can use the 'try it out' function provided by this API document to test the API. \n And, we strongly recommend you using [Postman](https://www.getpostman.com/) to do the testing and use these [test cases](http://ualapi.ebaocloud.life/tc/postman_collection.json) as a reference.",
     "version": "0.9",
     "title": "eBaoCloud API for GOYO, UAL",
     "contact": {
@@ -329,8 +329,9 @@
       "type": "object",
       "properties": {
         "productId": {
-          "type": "string",
-          "description": "The according product ID."
+          "type": "integer",
+          "description": "The according product ID.",
+          "example": "9100271"
         },
         "productCode": {
           "type": "string",
