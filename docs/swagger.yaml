@@ -259,12 +259,14 @@ definitions:
       paymentFreq:
         type: string
         enum:
+          - '0'
           - '1'
           - '2'
           - '3'
           - '4'
           - '5'
-        description: Payment frequency. e.g.
+          - '8'
+        description: 'Payment frequency. 0:Not Relevant, 1:Yearly, 2:Half Yearly, 3:Quarterly, 4:Monthly, 5:Single, 8:Daily, '
       sa:
         type: number
         description: Sum assured / Face amount.
@@ -278,20 +280,43 @@ definitions:
         type: number
         description: benefitlevel
       chargePeriod:
-        $ref: '#/definitions/Period'
+        $ref: '#/definitions/ChargePeriod'
       coveragePeriod:
-        $ref: '#/definitions/Period'
-  Period:
+        $ref: '#/definitions/CoveragePeriod'
+  ChargePeriod:
     type: object
-    description: 'period: charge period, coverage period'
+    description: charge period
     properties:
       periodType:
         type: integer
         enum:
+          - 0
           - 1
-        description: ''
+          - 2
+          - 3
+          - 4
+        description: 'charge mode/type. 0: NA, 1: Single Premium, 2: Pay for Certain Year, 3: Pay Up to Certain Age, 4: Pay for Whole Life.'
+        example: 1
+      periodValue:
+        type: integer
+        example: 1
+  CoveragePeriod:
+    type: object
+    description: coverage period
+    properties:
+      periodType:
+        type: integer
+        enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+        description: 'charge mode/type. 0: NA, 1: Cover Whole Life, 2: Cover for a Certain Year, 3: Cover Up to Certain Age, 4: Cover for a Certain Month.'
+        example: 1
       periodValue:
         type: number
+        example: 1
   Person:
     type: object
     required:
@@ -305,11 +330,11 @@ definitions:
       firstName:
         type: string
         description: First name of the person
-        example: Alex
+        example: John
       lastName:
         type: string
         description: Last name of the person
-        example: Wong
+        example: Tang
       birthday:
         type: string
         format: date
@@ -319,7 +344,8 @@ definitions:
         enum:
           - F
           - M
-        description: 'F: Female, M: Male'
+          - 'N'
+        description: 'F: Female, M: Male, N: Unknown'
         example: F
       jobCateId:
         type: integer
@@ -328,16 +354,51 @@ definitions:
         type: string
         description: job category code
       laPhRela:
-        type: number
-        description: the relationship between insured and policy holder
+        type: integer
         enum:
           - 1
-        example: ''
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+        example: '1'
+        description: 'The relationship between insured and policy holder. Default: 1 for self. 1:Self, 2:Child, 3:Spouse, 4:Employee, 5:Grantor, 6:Ward, 7:Others, 8:Business Partner, 9:Debtor, 10:Parent, 11:Sibling, 12:Grandparent, 13:Grandchild, 14:Kindred, 15:Cohabitation, 16:Corporation, 17:Employer, 18:Heir at law, 19:Wife, 20:Husband, 21:Father, 22:Mother, 23:Grandfather, 24:Grandmother, 25:Older Brother(Sister), 26:Little Brother(Sister), 27:Uncle, 28:Untie, 29:Cousin, 30:Nephew(Niece)'
+        default: '1'
       certiType:
         type: integer
-        description: 'certificate type, in GOYO, the default is 1:ID'
+        description: 'Certificate type, in GOYO, the default is 1:ID. 1: ID, 2: Military ID, 3: Passport Number, 4: Birth Certificate, 6: N/A, 9: Others'
         enum:
           - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 9
         example: 1
       certiCode:
         type: string
@@ -352,11 +413,18 @@ definitions:
         description: email
         example: 98473223@email.com
       marriageStatus:
-        type: string
+        type: integer
         enum:
-          - Married
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+        description: '1: Married, 2: Single, 3: Divorced, 4: Widowed, 5: Separated, 6: Other'
+        example: 1
       childCount:
-        type: number
+        type: integer
         description: child number
       nationality:
         type: string

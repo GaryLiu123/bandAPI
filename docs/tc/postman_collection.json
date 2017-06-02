@@ -1,0 +1,279 @@
+{
+	"variables": [],
+	"info": {
+		"name": "UAL GOYO API UAT",
+		"_postman_id": "29d24d4d-8ab9-650c-4152-306a9887c89d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "health data",
+			"description": "",
+			"item": [
+				{
+					"name": "Standard - (2 records)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"0\";",
+									"tests[\"message assert(0)\"] = jsonData.message === \"Successful!\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/GOYO/healthData",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalCount\": 2,\r\n    \"healthDatas\": [\r\n        {\r\n            \"proposalNo\": \"9000003543\",\r\n            \"date\": \"2016-05-11\",\r\n            \"calories\": 2341,\r\n            \"steps\": 12310,\r\n            \"distance\": 85.52,\r\n            \"sleep\": 11,\r\n            \"heartRate\": 120\r\n        },\r\n        {\r\n            \"proposalNo\": \"9767003543\",\r\n            \"date\": \"2015-05-12\",\r\n            \"calories\": 341,\r\n            \"steps\": 12313210,\r\n            \"distance\": 895.52,\r\n            \"sleep\": 21,\r\n            \"heartRate\": 20\r\n        }\r\n    ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Standard - (1 record)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"0\";",
+									"tests[\"message assert(0)\"] = jsonData.message === \"Successful!\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/GOYO/healthData",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalCount\": 1,\r\n    \"healthDatas\": [\r\n        {\r\n            \"proposalNo\": \"9000003543\",\r\n            \"date\": \"2016-05-11\",\r\n            \"calories\": 2341,\r\n            \"steps\": 12310,\r\n            \"distance\": 85.52,\r\n            \"sleep\": 11,\r\n            \"heartRate\": 120\r\n        }\r\n    ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Error -  (2 records, 1 totalCount )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"1\";",
+									"tests[\"message assert(0)\"] = jsonData.message === \"Fail!\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/GOYO/healthData",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalCount\": 1,\r\n    \"healthDatas\": [\r\n        {\r\n            \"proposalNo\": \"9000003543\",\r\n            \"date\": \"2016-05-11\",\r\n            \"calories\": 2341,\r\n            \"steps\": 12310,\r\n            \"distance\": 85.52,\r\n            \"sleep\": 11,\r\n            \"heartRate\": 120\r\n        },\r\n        {\r\n            \"proposalNo\": \"9767003543\",\r\n            \"date\": \"2015-05-12\",\r\n            \"calories\": 341,\r\n            \"steps\": 12313210,\r\n            \"distance\": 895.52,\r\n            \"sleep\": 21,\r\n            \"heartRate\": 20\r\n        }\r\n    ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Error -  (1 record,  2 totalCount )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"1\";",
+									"tests[\"message assert(0)\"] = jsonData.message === \"Fail!\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/GOYO/healthData",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalCount\": 2,\r\n    \"healthDatas\": [\r\n        {\r\n            \"proposalNo\": \"9000003543\",\r\n            \"date\": \"2016-05-11\",\r\n            \"calories\": 2341,\r\n            \"steps\": 12310,\r\n            \"distance\": 85.52,\r\n            \"sleep\": 11,\r\n            \"heartRate\": 120\r\n        }\r\n    ]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "propsoal csv",
+			"description": "",
+			"item": [
+				{
+					"name": "generateProposalCSV UAT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Body matches csv header\"] = responseBody.has(\"LIST_ID\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://ualapi.ebaocloud.life/libff/rest/goyoProposalService/generateProposalCSV/2017-06-02",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"insertDate\":\"2017-05-16\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "save proposal",
+			"description": "",
+			"item": [
+				{
+					"name": "Standard - (Alex Wong)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"0\";",
+									"",
+									"tests[\"Body matches proposalCode\"] = responseBody.has(\"proposalCode\");",
+									"tests[\"Body matches proposalId\"] = responseBody.has(\"proposalId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/goyoProposalService/saveProposal",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"encryptedUserData\": \"eyJ1c2VySWQiOjEwNjMyLCJuYW1lIjoiYWdlbnRfdXNlciIsInBob25lIjoxNTYwMDE3MzM2OSwidXNlckZsYWciOiJZIn0=\",\n\t \"proposalInfo\": {\n    \"proposalCode\": null,\n    \"packageId\": \"9100271\",\n    \"productId\": \"9100271\",\n    \"insureds\": [\n      {\n        \"firstName\": \"Alex\",\n        \"lastName\": \"Wong\",\n        \"birthday\": \"1990-02-03\",\n        \"gender\": \"F\",\n        \"jobCateId\": 0,\n        \"jobCateCode\": \"string\",\n        \"laPhRela\": \"\",\n        \"certiType\": 1,\n        \"certiCode\": \"X2434234\",\n        \"mobile\": \"98473223\",\n        \"email\": \"98473223@email.com\",\n        \"marriageStatus\": \"Married\",\n        \"childCount\": 0,\n        \"nationality\": \"Sri Lanka\",\n        \"nationCode\": \"lk\",\n        \"address\": [\n          {\n            \"countryCode\": \"string\",\n            \"province\": \"string\",\n            \"city\": \"string\",\n            \"region\": \"string\",\n            \"address\": \"string\",\n            \"addressExt1\": \"string\",\n            \"addressExt2\": \"string\",\n            \"postCode\": \"A12235647\"\n          }\n        ]\n      }\n    ],\n    \"proposer\": {\n      \"firstName\": \"Alex\",\n      \"lastName\": \"Wong\",\n      \"birthday\": \"1990-02-03\",\n      \"gender\": \"F\",\n      \"jobCateId\": 0,\n      \"jobCateCode\": \"string\",\n      \"laPhRela\": \"\",\n      \"certiType\": 1,\n      \"certiCode\": \"X2434234\",\n      \"mobile\": \"98473223\",\n      \"email\": \"98473223@email.com\",\n      \"marriageStatus\": \"Married\",\n      \"childCount\": 0,\n      \"nationality\": \"Sri Lanka\",\n      \"nationCode\": \"lk\",\n      \"address\": [\n        {\n          \"countryCode\": \"string\",\n          \"province\": \"string\",\n          \"city\": \"string\",\n          \"region\": \"string\",\n          \"address\": \"string\",\n          \"addressExt1\": \"string\",\n          \"addressExt2\": \"string\",\n          \"postCode\": \"A12235647\"\n        }\n      ]\n    },\n    \"mainCoverages\": [\n      {\n        \"productId\": \"9100271\",\n        \"productCode\": \"string\",\n        \"masterProductId\": 0,\n        \"unitFlag\": 0,\n        \"paymentFreq\": \"1\",\n        \"sa\": 0,\n        \"premium\": 0,\n        \"unit\": 0,\n        \"benefitlevel\": 0,\n        \"chargePeriod\": {\n          \"periodType\": 1,\n          \"periodValue\": 0\n        },\n        \"coveragePeriod\": {\n          \"periodType\": 1,\n          \"periodValue\": 0\n        }\n      }\n    ],\n    \"totalFirstYearPrem\": 400,\n    \"proposalStatus\": \"80\",\n    \"inforceDate\": \"2017-06-02\",\n    \"endDate\": \"2017-06-02\",\n    \"submitDate\": \"2017-06-02\",\n    \"salesCompanyCode\": \"GOYO\",\n    \"salesChannelCode\": \"GOYO\",\n    \"beneficiaries\": [\n      {\n        \"firstName\": \"Alex\",\n        \"lastName\": \"Wong\",\n        \"birthday\": \"1990-02-03\",\n        \"gender\": \"F\",\n        \"jobCateId\": 0,\n        \"jobCateCode\": \"string\",\n        \"laPhRela\": \"\",\n        \"certiType\": 1,\n        \"certiCode\": \"X2434234\",\n        \"mobile\": \"98473223\",\n        \"email\": \"98473223@email.com\",\n        \"marriageStatus\": \"Married\",\n        \"childCount\": 0,\n        \"nationality\": \"Sri Lanka\",\n        \"nationCode\": \"lk\",\n        \"address\": [\n          {\n            \"countryCode\": \"string\",\n            \"province\": \"string\",\n            \"city\": \"string\",\n            \"region\": \"string\",\n            \"address\": \"string\",\n            \"addressExt1\": \"string\",\n            \"addressExt2\": \"string\",\n            \"postCode\": \"A12235647\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Error - （no insured）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status assert(0)\"] = jsonData.status === \"1\";",
+									"tests[\"message assert()\"] = jsonData.message === \"Fail!\";",
+									"tests[\"errorMessages assert()\"] = jsonData.errorMessages[0] === \"error input parameter! insureds missing\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": " http://ualapi.ebaocloud.life/libff/services/rest/goyoProposalService/saveProposal",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"encryptedUserData\": \"eyJ1c2VySWQiOjEwNjMyLCJuYW1lIjoiYWdlbnRfdXNlciIsInBob25lIjoxNTYwMDE3MzM2OSwidXNlckZsYWciOiJZIn0=\",\n\t \"proposalInfo\": {\n    \"proposalCode\": null,\n    \"packageId\": \"9100271\",\n    \"productId\": \"9100271\",\n    \"proposer\": {\n      \"firstName\": \"Alex\",\n      \"lastName\": \"Wong\",\n      \"birthday\": \"1990-02-03\",\n      \"gender\": \"F\",\n      \"jobCateId\": 0,\n      \"jobCateCode\": \"string\",\n      \"laPhRela\": \"\",\n      \"certiType\": 1,\n      \"certiCode\": \"X2434234\",\n      \"mobile\": \"98473223\",\n      \"email\": \"98473223@email.com\",\n      \"marriageStatus\": \"Married\",\n      \"childCount\": 0,\n      \"nationality\": \"Sri Lanka\",\n      \"nationCode\": \"lk\",\n      \"address\": [\n        {\n          \"countryCode\": \"string\",\n          \"province\": \"string\",\n          \"city\": \"string\",\n          \"region\": \"string\",\n          \"address\": \"string\",\n          \"addressExt1\": \"string\",\n          \"addressExt2\": \"string\",\n          \"postCode\": \"A12235647\"\n        }\n      ]\n    },\n    \"mainCoverages\": [\n      {\n        \"productId\": \"9100271\",\n        \"productCode\": \"string\",\n        \"masterProductId\": 0,\n        \"unitFlag\": 0,\n        \"paymentFreq\": \"1\",\n        \"sa\": 0,\n        \"premium\": 0,\n        \"unit\": 0,\n        \"benefitlevel\": 0,\n        \"chargePeriod\": {\n          \"periodType\": 1,\n          \"periodValue\": 0\n        },\n        \"coveragePeriod\": {\n          \"periodType\": 1,\n          \"periodValue\": 0\n        }\n      }\n    ],\n    \"totalFirstYearPrem\": 400,\n    \"proposalStatus\": \"80\",\n    \"inforceDate\": \"2017-06-02\",\n    \"endDate\": \"2017-06-02\",\n    \"submitDate\": \"2017-06-02\",\n    \"salesCompanyCode\": \"GOYO\",\n    \"salesChannelCode\": \"GOYO\",\n    \"beneficiaries\": [\n      {\n        \"firstName\": \"Alex\",\n        \"lastName\": \"Wong\",\n        \"birthday\": \"1990-02-03\",\n        \"gender\": \"F\",\n        \"jobCateId\": 0,\n        \"jobCateCode\": \"string\",\n        \"laPhRela\": \"\",\n        \"certiType\": 1,\n        \"certiCode\": \"X2434234\",\n        \"mobile\": \"98473223\",\n        \"email\": \"98473223@email.com\",\n        \"marriageStatus\": \"Married\",\n        \"childCount\": 0,\n        \"nationality\": \"Sri Lanka\",\n        \"nationCode\": \"lk\",\n        \"address\": [\n          {\n            \"countryCode\": \"string\",\n            \"province\": \"string\",\n            \"city\": \"string\",\n            \"region\": \"string\",\n            \"address\": \"string\",\n            \"addressExt1\": \"string\",\n            \"addressExt2\": \"string\",\n            \"postCode\": \"A12235647\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
