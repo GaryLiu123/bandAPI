@@ -250,12 +250,12 @@
           "example": "9123456789"
         },
         "packageId": {
-          "type": "string",
+          "type": "integer",
           "description": "The according package ID, for normal case, it should equals to the product ID.",
           "example": "9100271"
         },
         "productId": {
-          "type": "string",
+          "type": "integer",
           "description": "The according product ID.",
           "example": "9100271"
         },
@@ -277,28 +277,32 @@
           }
         },
         "totalFirstYearPrem": {
-          "type": "string",
-          "description": "The according product ID."
+          "type": "number",
+          "description": "The according product ID.",
+          "example": 400
         },
         "proposalStatus": {
           "type": "string",
           "description": "Proposal status",
-          "default": "80"
+          "default": "80",
+          "example": "80"
         },
         "inforceDate": {
           "type": "string",
           "format": "date",
-          "description": ""
+          "example": "2017-06-02"
         },
         "endDate": {
           "type": "string",
           "format": "date",
-          "description": ""
+          "description": "",
+          "example": "2017-06-02"
         },
         "submitDate": {
           "type": "string",
           "format": "date",
-          "description": ""
+          "description": "",
+          "example": "2017-06-02"
         },
         "salesCompanyCode": {
           "type": "string",
@@ -333,11 +337,11 @@
           "description": "The according product code."
         },
         "masterProductId": {
-          "type": "string",
+          "type": "integer",
           "description": "Master product ID if it is a rider. No value when it is a main plan."
         },
         "unitFlag": {
-          "type": "string",
+          "type": "integer",
           "description": "For investment product."
         },
         "paymentFreq": {
@@ -380,7 +384,7 @@
       "description": "period: charge period, coverage period",
       "properties": {
         "periodType": {
-          "type": "string",
+          "type": "integer",
           "enum": [
             1
           ],
@@ -427,7 +431,7 @@
           "example": "F"
         },
         "jobCateId": {
-          "type": "string",
+          "type": "integer",
           "description": "job category id"
         },
         "jobCateCode": {
@@ -443,7 +447,7 @@
           "example": ""
         },
         "certiType": {
-          "type": "string",
+          "type": "integer",
           "description": "certificate type, in GOYO, the default is 1:ID",
           "enum": [
             1
