@@ -105,9 +105,14 @@ definitions:
   HealthData:
     type: object
     required:
+      - uuid
       - proposalNo
       - date
     properties:
+      uuid:
+        type: string
+        example: 'GOYO123456789'
+        description: Request ID
       proposalNo:
         type: string
         example: '9123456789'
@@ -162,9 +167,13 @@ definitions:
     type: object
     description: Proposal submit request
     required:
+      - proposalRequestId
       - encryptedUserData
       - proposalInfo
     properties:
+      proposalRequestId:
+        type: string
+        description: 'Request ID'
       encryptedUserData:
         type: string
         description: 'The '
