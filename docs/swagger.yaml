@@ -112,7 +112,7 @@ definitions:
       uuid:
         type: string
         example: 'GOYO123456789'
-        description: Request ID
+        description: Request ID, Unique ID of this record.
       proposalNo:
         type: string
         example: '9123456789'
@@ -173,7 +173,7 @@ definitions:
     properties:
       proposalRequestId:
         type: string
-        description: 'Request ID'
+        description: 'Request ID, Unique ID for this record.'
       encryptedUserData:
         type: string
         description: 'The '
