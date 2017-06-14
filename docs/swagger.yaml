@@ -167,11 +167,11 @@ definitions:
     type: object
     description: Proposal submit request
     required:
-      - proposalRequestId
+      - uuid
       - encryptedUserData
       - proposalInfo
     properties:
-      proposalRequestId:
+      uuid:
         type: string
         description: 'Request ID, Unique ID for this record.'
       encryptedUserData:
@@ -327,6 +327,7 @@ definitions:
     required:
       - firstName
       - lastName
+      - otherName
       - birthday
       - gender
       - laPhRela
@@ -340,6 +341,10 @@ definitions:
         type: string
         description: Last name of the person
         example: Tang
+      otherName:
+        type: string
+        description: other name of the person
+        example: Sam
       birthday:
         type: string
         format: date
