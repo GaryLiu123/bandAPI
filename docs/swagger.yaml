@@ -44,6 +44,26 @@ paths:
           schema:
             $ref: '#/definitions/HealthDataSubmitResponse'
       x-swagger-router-controller: Health Data
+  /services/rest/GOYO/queryHealthData:
+    post:
+      tags:
+        - health data
+      summary: Query a list of health data from GOYO by proposalNo and date.
+      description: |
+        This API provides a ```POST``` method and accept at least one query parameter. The request body contais 2 parameters: **proposalNo** and **date**(YYYY-MM-DD)  . if user doesn't input anything, error message will be sent.
+      parameters:
+        - in: body
+          name: body
+          description: Parameters of user input.
+          required: true
+          schema:
+            $ref: '#/definitions/HealthDataQuery'
+      responses:
+        '200':
+          description: Successful response.
+          schema:
+            $ref: '#/definitions/HealthDataQureyResponse'
+      x-swagger-router-controller: Health Data
   /services/rest/goyoProposalService/saveProposal:
     post:
       tags:
@@ -111,7 +131,7 @@ definitions:
     properties:
       uuid:
         type: string
-        example: 'GOYO123456789'
+        example: 'GOYO1234567891'
         description: Request ID, Unique ID of this record.
       proposalNo:
         type: string
@@ -163,6 +183,43 @@ definitions:
       message:
         type: string
         description: common message
+  HealthDataQuery:
+    type: object
+    properties:
+      proposalNo:
+        type: string
+        example: "1234564567890"
+        description: The proposal number of the health data.
+      date:
+        type: string
+        example: "2016-05-12"
+        description: the date of the health data
+    required:
+      - proposalNo
+      - date
+  HealthDataQureyResponse:
+    type: object
+    required:
+      - status
+    properties:
+      status:
+        type: number
+        enum:
+          - 0
+          - 1
+        description: '0: Successful, 1: Failed'
+      errorMessages:
+        type: array
+        items:
+          type: string
+      message:
+        type: string
+        description: common message
+      healthDatas:
+        type: array
+        items:
+          $ref: '#/definitions/HealthData'
+        description: list of health data
   ProposalSubmit:
     type: object
     description: Proposal submit request
@@ -174,9 +231,11 @@ definitions:
       uuid:
         type: string
         description: 'Request ID, Unique ID for this record.'
+        example: 'UUID12345678901'
       encryptedUserData:
         type: string
         description: 'The '
+        example: 'eyJ1c2VySWQiOjEwNjMyLCJuYW1lIjoiYWdlbnRfdXNlciIsInBob25lIjoxNTYwMDE3MzM2OSwidXNlckZsYWciOiJZIn0='
       proposalInfo:
         $ref: '#/definitions/ProposalInfo'
   ProposalInfo:
@@ -186,7 +245,7 @@ definitions:
       proposalCode:
         type: string
         description: 'Proposal No., keep empty if you dont have one, system will generate one for you (10 digital number, start with 9). '
-        example: '9123456789'
+        example: '2345678901'
       packageId:
         type: integer
         description: 'The according package ID, for normal case, it should equals to the product ID.'
@@ -444,7 +503,7 @@ definitions:
         enum:
           - lk
         example: lk
-      address:
+      addresses:
         type: array
         description: address list
         items:
