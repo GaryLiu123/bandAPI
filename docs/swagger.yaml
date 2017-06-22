@@ -306,6 +306,11 @@ definitions:
           $ref: '#/definitions/Person'
   Coverage:
     type: object
+    required:
+      - productId
+      - productCode
+      - sa
+      - benefitlevel
     properties:
       productId:
         type: integer
@@ -389,10 +394,10 @@ definitions:
       - prefix
       - firstName
       - lastName
-      - otherName
       - birthday
       - gender
-      - laPhRela
+      - jobCateCode
+      - certiType
       - certiCode
     properties:
       prefix:
@@ -423,8 +428,7 @@ definitions:
         enum:
           - F
           - M
-          - 'N'
-        description: 'F: Female, M: Male, N: Unknown'
+        description: 'F: Female, M: Male'
         example: F
       jobCateId:
         type: integer
